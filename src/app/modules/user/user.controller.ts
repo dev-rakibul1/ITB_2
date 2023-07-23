@@ -10,9 +10,6 @@ import { userService } from './user.service';
 const createNewUser = catchAsync(async (req: Request, res: Response) => {
   const { ...user } = req.body;
 
-  console.log(req.cookies, 'A cookies');
-  console.log(req.cookies, 'A cookies 2');
-
   const result = await userService.createNewUserService(user);
 
   sendResponse<IUser>(res, {

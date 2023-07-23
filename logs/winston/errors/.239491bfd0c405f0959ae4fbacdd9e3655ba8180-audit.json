@@ -74,6 +74,16 @@
             "date": 1690103170080,
             "name": "D:\\Programming_subjects\\Programming_Hero\\intertview_task\\interview_task_backend\\university_project_management_auth_service\\logs\\winston\\errors\\2023-07-23-15 UPM-error.log",
             "hash": "7c6a3ea7aa5ddf3285f49f19d8544f88bfe6f74f35c7e53b473deaa0cbda5ded"
+        },
+        {
+            "date": 1690121306740,
+            "name": "D:\\Programming_subjects\\Programming_Hero\\intertview_task\\interview_task_backend\\university_project_management_auth_service\\logs\\winston\\errors\\2023-07-23-20 UPM-error.log",
+            "hash": "19e694a0b54bb760a69202d31fe60231c92951c0f90763c62bd412142f1813f9"
+        },
+        {
+            "date": 1690128795710,
+            "name": "D:\\Programming_subjects\\Programming_Hero\\intertview_task\\interview_task_backend\\university_project_management_auth_service\\logs\\winston\\errors\\2023-07-23-22 UPM-error.log",
+            "hash": "bb0cd9a2190eeeac3654bb9ea564efd15f9fc055717afa190e1b2778d1f80d84"
         }
     ],
     "hashType": "sha256"
