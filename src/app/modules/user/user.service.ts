@@ -7,25 +7,37 @@ const createNewUserService = async (payload: IUser): Promise<IUser | null> => {
     payload.role = config.user_default_role as string;
   }
 
-  // jwtTokenProvider.createToken(
-  //   {
-  //     id: payload.email,
-  //     role: payload.role,
-  //     password: payload.password,
-  //   },
-  //   config.bcrypt_salts_round as string,
-  //   config.jwtAccessExpireDate as string
-  // );
-
-  // payload.password = await bcrypt.hash(
-  //   payload.password,
-  //   Number(config.bcrypt_salts_round)
-  // );
-
   const result = await User.create(payload);
+  return result;
+};
+
+const getAllUserService = async (): Promise<IUser[] | null> => {
+  const result = await User.find({});
+  return result;
+};
+
+const updateUserService = async (
+  id: string,
+  payload: Partial<IUser>
+): Promise<IUser | null> => {
+  const result = await User.findByIdAndUpdate(id, payload, { new: true });
+  return result;
+};
+
+const deleteUserService = async (id: string): Promise<IUser | null> => {
+  const result = await User.findByIdAndDelete(id);
+  return result;
+};
+
+const singleGetUserService = async (id: string): Promise<IUser | null> => {
+  const result = await User.findById(id);
   return result;
 };
 
 export const userService = {
   createNewUserService,
+  getAllUserService,
+  updateUserService,
+  deleteUserService,
+  singleGetUserService,
 };

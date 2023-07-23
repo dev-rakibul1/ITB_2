@@ -10,7 +10,7 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
   const { ...loginData } = req.body;
 
   const result = await authService.loginUserService(loginData);
-  const { ...others } = result;
+  const { refreshToken, ...others } = result;
 
   const cookieOptions = {
     secure: config.env === 'production',
@@ -19,15 +19,9 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
 
   res.cookie('refreshToken', refreshToken, cookieOptions);
 
-  // const cookieOptions = {
-  //   secure: config.env === 'production',
-  //   httpOnly: true,
-  // };
-  // res.cookie('refreshToken', refreshToken, cookieOptions);
-
-  // if ('refreshToken' in result) {
-  //   delete result.refreshToken;
-  // }
+  if ('refreshToke' in result) {
+    delete result.refreshToke;
+  }
 
   sendResponse<IUserLoginResponse>(res, {
     statusCode: httpStatus.OK,
@@ -49,11 +43,7 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
   };
   res.cookie('refreshToken', refreshToken, cookieOptions);
 
-  // if ('refreshToken' in result) {
-  //   delete result.refreshToken;
-  // }
-
-  sendResponse(res, {
+  sendResponse<IUserLoginResponse>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Login successfully!',
