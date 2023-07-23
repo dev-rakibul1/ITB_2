@@ -23,6 +23,31 @@ const createUserValidation = z.object({
   }),
 });
 
+const updateUserValidation = z.object({
+  body: z.object({
+    name: z
+      .string()
+      .min(3, { message: 'Name should be at least 3 characters long' })
+      .optional(),
+    role: z.string({}).optional(),
+    email: z
+      .string()
+      .email({ message: 'Invalid email format' })
+      .refine(value => emailRegex.test(value), {
+        message: 'Invalid email address',
+      })
+      .optional(),
+    password: z
+      .string()
+      .refine(value => passwordRegex.test(value), {
+        message:
+          'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character',
+      })
+      .optional(),
+  }),
+});
+
 export const userZodValidation = {
   createUserValidation,
+  updateUserValidation,
 };

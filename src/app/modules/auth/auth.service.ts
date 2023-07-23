@@ -33,9 +33,9 @@ const loginUserService = async (
   // access token
   const accessToken = jwtTokenProvider.createToken(
     {
-      email: isUserExist.email,
-      role: isUserExist.role,
-      password: isUserExist.password,
+      email: isUserExist?.email,
+      role: isUserExist?.role,
+      password: isUserExist?.password,
     },
     config.jwtAccessKey as Secret,
     config.jwtAccessExpireDate as string
@@ -44,7 +44,7 @@ const loginUserService = async (
   // refresh token
   const refreshToken = jwtTokenProvider.createToken(
     {
-      id: isUserExist?.email,
+      email: isUserExist?.email,
       role: isUserExist?.role,
       password: isUserExist?.password,
     },
@@ -56,53 +56,10 @@ const loginUserService = async (
     accessToken,
     refreshToken,
   };
-
-  // const { id, password } = payload;
-  // const user = new User();
-  // const isIdExist = await user.isIdExist(id);
-  // if (!isIdExist) {
-  //   throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist.');
-  // }
-  // if (
-  //   isIdExist?.password &&
-  //   !user.isPasswordMatch(password, isIdExist?.password)
-  // ) {
-  //   throw new ApiError(
-  //     httpStatus.UNAUTHORIZED,
-  //     'Your password does not match.'
-  //   );
-  // }
-  // // access JWT refresh and access token
-  // // Access token
-  // // const accessToken = jwt.sign(
-  // //   { id: isIdExist?.id, role: isIdExist?.role },
-  // //   config.jwtAccessKey,
-  // //   { expiresIn: config.jwtAccessExpireDate }
-  // // );
-  // const accessToken = jwtTokenProvider.createToken(
-  //   {
-  //     id: isIdExist?.id,
-  //     role: isIdExist?.role,
-  //   },
-  //   config.jwtAccessKey as Secret,
-  //   config.jwtAccessExpireDate as string
-  // );
-  // // Refresh token
-  // const refreshToken = jwtTokenProvider.createToken(
-  //   { id: isIdExist?.id, role: isIdExist?.role },
-  //   config.jwtRefreshKey as Secret,
-  //   config.jwtRefreshExpireDate as string
-  // );
-  // const { needPasswordChange } = isIdExist;
-  // // console.log({ accessToken, refreshToken, needPasswordChange });
-  // return {
-  //   accessToken,
-  //   refreshToken,
-  //   needPasswordChange,
-  // };
 };
 
 const refreshTokenService = async (token: string): Promise<IRefreshToken> => {
+  // verify token
   let verifyToken = null;
   try {
     verifyToken = jwtTokenProvider.verifyJwtToken(
@@ -113,25 +70,24 @@ const refreshTokenService = async (token: string): Promise<IRefreshToken> => {
     throw new ApiError(httpStatus.FORBIDDEN, 'Invalid refresh token.');
   }
 
-  const { id: userId } = verifyToken;
+  const { email } = verifyToken;
 
   const user = new User();
-  const isIdExist = await user.isIdExist(userId);
+  const isUserExist = await user.isUserExist(email);
 
-  if (!isIdExist?.id) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist.');
+  if (!isUserExist?.email) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found!');
   }
 
   // generate a new token
   const newAccessToken = jwtTokenProvider.createToken(
     {
-      userId: isIdExist.id,
-      role: isIdExist.role,
+      email: isUserExist.email,
+      role: isUserExist.role,
     },
     config.jwtAccessKey as Secret,
     config.jwtAccessExpireDate as string
   );
-
   return {
     accessToken: newAccessToken,
   };

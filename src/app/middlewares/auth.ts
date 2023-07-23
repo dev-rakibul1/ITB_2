@@ -11,6 +11,9 @@ const auth =
     try {
       const token = req.headers.authorization;
 
+      console.log('Auth token: ', token);
+      console.log(requireRole);
+
       if (!token) {
         throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized');
       }
@@ -25,7 +28,7 @@ const auth =
       req.user = verifyUser;
 
       if (requireRole.length && !requireRole.includes(verifyUser.role)) {
-        throw new ApiError(httpStatus.FORBIDDEN, 'Forbidden user');
+        throw new ApiError(httpStatus.FORBIDDEN, 'Forbidden');
       }
 
       next();
