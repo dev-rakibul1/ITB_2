@@ -1,15 +1,30 @@
 import { Schema, model } from 'mongoose';
 import { ISearchInput, ISearchInputModel } from './search.interface';
 
+const PayloadItemSchema = {
+  timestamp: {
+    type: Date,
+    default: Date.now,
+  },
+  input_values: { type: [Number], required: true },
+};
+
 const searchSchema = new Schema<ISearchInput, ISearchInputModel>(
   {
-    inputValues: {
-      type: [Number],
+    status: {
+      type: String,
     },
-    searchValue: {
+    user_id: {
+      type: String,
+    },
+    payload: { type: [PayloadItemSchema], required: true },
+    search_value: {
       type: Number,
     },
     result: {
+      type: String,
+    },
+    role: {
       type: String,
     },
   },
