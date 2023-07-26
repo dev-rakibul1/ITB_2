@@ -30,7 +30,11 @@ router.delete(
 router.post(
   '/create-user',
   validateRequest(userZodValidation.createUserValidation),
-  authProvider.auth(ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),
+  authProvider.auth(
+    ENUM_USER_ROLE.SUPER_ADMIN,
+    ENUM_USER_ROLE.ADMIN,
+    ENUM_USER_ROLE.USER
+  ),
   userController.createNewUser
 );
 router.get(

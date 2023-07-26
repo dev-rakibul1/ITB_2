@@ -10,6 +10,9 @@ const auth =
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const token = req.headers.authorization;
+      console.log('client token: ', req.headers.authorization);
+
+      console.log(token, 'auth token');
 
       console.log('Auth token: ', token);
       console.log(requireRole);

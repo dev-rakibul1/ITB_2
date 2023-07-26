@@ -1,8 +1,7 @@
 import { z } from 'zod';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const passwordRegex =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+// const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 
 const createUserValidation = z.object({
   body: z.object({
@@ -16,10 +15,12 @@ const createUserValidation = z.object({
       .refine(value => emailRegex.test(value), {
         message: 'Invalid email address',
       }),
-    password: z.string().refine(value => passwordRegex.test(value), {
-      message:
-        'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character',
-    }),
+    password: z
+      .string()
+      .min(8, { message: 'Password must be at least 8 characters long' })
+      .refine(value => !!value.trim(), {
+        message: 'Password cannot be empty or contain only white spaces',
+      }),
   }),
 });
 
@@ -39,9 +40,9 @@ const updateUserValidation = z.object({
       .optional(),
     password: z
       .string()
-      .refine(value => passwordRegex.test(value), {
-        message:
-          'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character',
+      .min(8, { message: 'Password must be at least 8 characters long' })
+      .refine(value => !!value.trim(), {
+        message: 'Password cannot be empty or contain only white spaces',
       })
       .optional(),
   }),

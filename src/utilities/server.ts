@@ -1,31 +1,35 @@
-import dotenv from 'dotenv';
+import colors from 'colors';
 import { Server } from 'http';
 import mongoose from 'mongoose';
-import app from '../index';
-dotenv.config();
-
 import config from '../config/config';
-import { errorLogger, logger } from '../shared/logger';
+import app from '../index';
+
+process.on('uncaughtException', err => {
+  console.log('Uncaught exception is detected.', err);
+  process.exit(1);
+});
 
 let server: Server;
-const databaseConnect = async () => {
+const databaseConnected = async () => {
   try {
-    await mongoose.connect(config.database_local_url as string);
-    logger.info('Database is connected!');
+    await mongoose.connect(config.database_urls as string);
+    console.log(colors.black.bgGreen('Database connected is success!'));
 
     server = app.listen(config.port, () => {
-      logger.info(`Example app listening on port ${config.port}`);
+      console.log(
+        colors.black.bgYellow(`OUR DCHB LISTEN PORT IS: ${config.port}`)
+      );
     });
   } catch (error) {
-    errorLogger.error('Fail to DB connected!');
+    console.log(colors.black.bgCyan(error as string));
+    console.log(colors.black.bgRed('Fail to DB connected!'));
   }
 };
 
 process.on('unhandledRejection', error => {
-  // errorLogger.log(error);
   if (server) {
     server.close(() => {
-      errorLogger.error(error);
+      console.log(error);
       process.exit(1);
     });
   } else {
@@ -34,10 +38,10 @@ process.on('unhandledRejection', error => {
 });
 
 process.on('SIGTERM', () => {
-  logger.info('SIGTERM is received!');
+  console.log('SIGTERM is received!');
   if (server) {
     server.close();
   }
 });
 
-export default databaseConnect;
+export default databaseConnected;

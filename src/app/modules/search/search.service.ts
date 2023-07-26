@@ -20,14 +20,15 @@ const createNewSearchService = async (
     payload.status = 'success' as string;
   }
 
-  payload.payload.forEach(data => {
-    const currentValue = data.input_values;
-    const newArray = currentValue.sort((a, b) => b - a);
+  payload.payload &&
+    payload.payload.forEach(data => {
+      const currentValue = data.input_values;
+      const newArray = currentValue.sort((a, b) => b - a);
 
-    payload.payload.find(firstValue => {
-      firstValue.input_values = newArray;
+      payload.payload.find(firstValue => {
+        firstValue.input_values = newArray;
+      });
     });
-  });
 
   // True or False return
   payload.payload.find(firstData => {
