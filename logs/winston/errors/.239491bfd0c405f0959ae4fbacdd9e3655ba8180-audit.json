@@ -134,6 +134,11 @@
             "date": 1690204149451,
             "name": "D:\\Programming_subjects\\Programming_Hero\\intertview_task\\interview_task_backend\\university_project_management_auth_service\\logs\\winston\\errors\\2023-07-24-19 UPM-error.log",
             "hash": "64da7c0cfa02fb08134affc037d1da0391e9a741bdce17cbedb0ef5a89a11d49"
+        },
+        {
+            "date": 1690208027407,
+            "name": "D:\\Programming_subjects\\Programming_Hero\\intertview_task\\interview_task_backend\\university_project_management_auth_service\\logs\\winston\\errors\\2023-07-24-20 UPM-error.log",
+            "hash": "c45889fdf2a361c479bf0daea8f5cf2892f840bcd61b873d78af911ad35ede74"
         }
     ],
     "hashType": "sha256"
